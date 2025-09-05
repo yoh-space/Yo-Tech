@@ -7,8 +7,8 @@ import type { Blog } from "@/types/blog";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Blog Page | Free Next.js Template for Startup and SaaS",
-  description: "This is Blog Page for Startup Nextjs Template",
+  title: "Blog Page | YoTech Your Tech Partner",
+  description: "This page dedicated to our blog articles and updates.",
   // other metadata
 };
 
