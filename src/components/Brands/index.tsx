@@ -1,4 +1,4 @@
-import { Brand } from "@/types/brand";
+import { Brand as BrandType } from "@/types/brand";
 import Image from "next/image";
 import brandsData from "./brandsData";
 
@@ -27,7 +27,7 @@ const Brands = () => {
 
 export default Brands;
 
-const SingleBrand = ({ brand }: { brand: Brand }) => {
+const SingleBrand = ({ brand }: { brand: BrandType }) => {
   const { href, name, icon: Icon } = brand; // 👈 icon comes from props
 
   return (
@@ -43,12 +43,5 @@ const SingleBrand = ({ brand }: { brand: Brand }) => {
       </a>
     </div>
   );
-};
-export type Brand = {
-  id: number;
-  name: string;
-  href: string;
-  icon: React.ComponentType<{ size?: number; strokeWidth?: number; className?: string }>;
-  // other properties
 };
 
