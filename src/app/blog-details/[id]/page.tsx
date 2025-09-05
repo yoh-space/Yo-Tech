@@ -6,7 +6,7 @@ import { notFound } from "next/navigation";
 
 export async function generateStaticParams() {
   const { data } = await supabase.from("blogs").select("id");
-  return (data || []).map((blog) => ({ id: blog.id.toString() }));
+  return (data || []).map((blog) => ({ params: { id: blog.id.toString() } }));
 }
 
 export default async function BlogDetailsPage({ params }: { params: { id: string } }) {
