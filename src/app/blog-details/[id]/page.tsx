@@ -6,14 +6,15 @@ import { notFound } from "next/navigation";
 
 export async function generateStaticParams() {
   const { data } = await supabase.from("blogs").select("id");
-  return (data || []).map((blog) => ({ params: { id: blog.id.toString() } }));
+  return (data || []).map((blog) => ({ id: blog.id.toString() }));
 }
 
-export default async function BlogDetailsPage({ params }: { params: { id: string } }) {
+export default async function BlogDetailsPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const { data, error } = await supabase
     .from("blogs")
     .select("id, title, content, author, image_url, tags, created_at")
-    .eq("id", params.id)
+    .eq("id", id)
     .single();
 
   if (error || !data) return notFound();

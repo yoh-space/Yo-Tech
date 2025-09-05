@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { supabase } from "@/app/lib/supabaseClient";
 import { useTheme } from "next-themes";
 
@@ -250,7 +251,12 @@ export default function AdminDashboard() {
                 <div key={blog.id} className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden shadow hover:shadow-lg transition-transform hover:-translate-y-1 bg-white dark:bg-gray-800 flex flex-col">
                   {blog.image_url && (
                     <div className="h-40 overflow-hidden bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
-                      <img src={blog.image_url} alt={blog.title} className="w-full h-full object-cover" />
+                      <Image
+                        src={blog.image_url}
+                        alt={blog.title}
+                        fill
+                        className="object-cover"
+                      />
                     </div>
                   )}
                   <div className="flex-1 flex flex-col p-4">
