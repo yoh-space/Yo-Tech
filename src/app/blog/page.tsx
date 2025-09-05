@@ -49,8 +49,8 @@ const Blog = async () => {
   return (
     <>
       <Breadcrumb
-        pageName="Blog Grid"
-        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius eros eget sapien consectetur ultrices. Ut quis dapibus libero."
+        pageName="Blog Lists"
+        description="Explore our collection of insightful articles and updates on the latest trends in technology, startups, and SaaS solutions."
       />
 
       <section className="pt-[120px] pb-[120px]">
