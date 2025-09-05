@@ -10,7 +10,7 @@ const Footer = () => {
           <div className="-mx-4 flex flex-wrap">
             <div className="w-full px-4 md:w-1/2 lg:w-4/12 xl:w-5/12">
               <div className="mb-12 max-w-[360px] lg:mb-16">
-                <Link href="/" className="mb-8 inline-block">
+                {/* <Link href="/" className="mb-8 inline-block">
                   <Image
                     src="/images/logo/logo-2.svg"
                     alt="logo"
@@ -25,7 +25,7 @@ const Footer = () => {
                     width={140}
                     height={30}
                   />
-                </Link>
+                </Link> */}
                 <p className="mb-9 text-base leading-relaxed text-body-color dark:text-body-color-dark">
                   we are a team of passionate developers dedicated to delivering top-notch tech solutions that drive innovation and success.
                 </p>
