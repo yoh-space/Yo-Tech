@@ -1,6 +1,8 @@
+
 import SingleBlog from "@/components/Blog/SingleBlog";
-import blogData from "@/components/Blog/blogData";
 import Breadcrumb from "@/components/Common/Breadcrumb";
+import { supabase } from "../lib/supabaseClient";
+import type { Blog } from "@/types/blog";
 
 import { Metadata } from "next";
 
@@ -10,7 +12,40 @@ export const metadata: Metadata = {
   // other metadata
 };
 
-const Blog = () => {
+const fetchBlogs = async (): Promise<Blog[]> => {
+  // Fetch blogs from Supabase
+  const { data, error } = await supabase
+    .from("blogs")
+    .select("id, title, content, author, image_url, tags, created_at, updated_at")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Error fetching blogs:", error.message);
+    return [];
+  }
+
+  console.log("Fetched blogs from Supabase:", data);
+
+  // Map Supabase data to Blog type
+  return (
+    data?.map((item: any) => ({
+      id: item.id,
+      title: item.title,
+      paragraph: item.content, // Map content to paragraph
+      image: item.image_url || "/images/blog/blog-01.jpg", // fallback image
+      author: {
+        name: item.author || "Unknown",
+        image: "/images/blog/author-02.png", // fallback author image
+        designation: "Author", // fallback designation
+      },
+      tags: item.tags || [],
+      publishDate: item.created_at ? new Date(item.created_at).getFullYear().toString() : "",
+    })) || []
+  );
+};
+
+const Blog = async () => {
+  const blogs = await fetchBlogs();
   return (
     <>
       <Breadcrumb
@@ -21,75 +56,20 @@ const Blog = () => {
       <section className="pt-[120px] pb-[120px]">
         <div className="container">
           <div className="-mx-4 flex flex-wrap justify-center">
-            {blogData.map((blog) => (
-              <div
-                key={blog.id}
-                className="w-full px-4 md:w-2/3 lg:w-1/2 xl:w-1/3"
-              >
-                <SingleBlog blog={blog} />
-              </div>
-            ))}
+            {blogs.length === 0 ? (
+              <p>No blogs found.</p>
+            ) : (
+              blogs.map((blog) => (
+                <div
+                  key={blog.id}
+                  className="w-full px-4 md:w-2/3 lg:w-1/2 xl:w-1/3"
+                >
+                  <SingleBlog blog={blog} />
+                </div>
+              ))
+            )}
           </div>
 
-          <div className="-mx-4 flex flex-wrap" data-wow-delay=".15s">
-            <div className="w-full px-4">
-              <ul className="flex items-center justify-center pt-8">
-                <li className="mx-1">
-                  <a
-                    href="#0"
-                    className="bg-body-color/15 text-body-color hover:bg-primary flex h-9 min-w-[36px] items-center justify-center rounded-md px-4 text-sm transition hover:text-white"
-                  >
-                    Prev
-                  </a>
-                </li>
-                <li className="mx-1">
-                  <a
-                    href="#0"
-                    className="bg-body-color/15 text-body-color hover:bg-primary flex h-9 min-w-[36px] items-center justify-center rounded-md px-4 text-sm transition hover:text-white"
-                  >
-                    1
-                  </a>
-                </li>
-                <li className="mx-1">
-                  <a
-                    href="#0"
-                    className="bg-body-color/15 text-body-color hover:bg-primary flex h-9 min-w-[36px] items-center justify-center rounded-md px-4 text-sm transition hover:text-white"
-                  >
-                    2
-                  </a>
-                </li>
-                <li className="mx-1">
-                  <a
-                    href="#0"
-                    className="bg-body-color/15 text-body-color hover:bg-primary flex h-9 min-w-[36px] items-center justify-center rounded-md px-4 text-sm transition hover:text-white"
-                  >
-                    3
-                  </a>
-                </li>
-                <li className="mx-1">
-                  <span className="bg-body-color/15 text-body-color flex h-9 min-w-[36px] cursor-not-allowed items-center justify-center rounded-md px-4 text-sm">
-                    ...
-                  </span>
-                </li>
-                <li className="mx-1">
-                  <a
-                    href="#0"
-                    className="bg-body-color/15 text-body-color hover:bg-primary flex h-9 min-w-[36px] items-center justify-center rounded-md px-4 text-sm transition hover:text-white"
-                  >
-                    12
-                  </a>
-                </li>
-                <li className="mx-1">
-                  <a
-                    href="#0"
-                    className="bg-body-color/15 text-body-color hover:bg-primary flex h-9 min-w-[36px] items-center justify-center rounded-md px-4 text-sm transition hover:text-white"
-                  >
-                    Next
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
         </div>
       </section>
     </>
