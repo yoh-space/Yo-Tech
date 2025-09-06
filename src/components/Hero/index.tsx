@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Spline from '@splinetool/react-spline/next';
+import Spline from '@splinetool/react-spline';
 
 const Hero = () => {
   return (
