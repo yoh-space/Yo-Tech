@@ -1,51 +1,15 @@
-
+"use client";
+import React from "react";
 import SingleBlog from "@/components/Blog/SingleBlog";
 import Breadcrumb from "@/components/Common/Breadcrumb";
-import { supabase } from "../lib/supabaseClient";
+import { useQuery } from "../lib/convexClient";
+import { api } from "../../../convex/_generated/api";
 import type { Blog } from "@/types/blog";
+import type { FunctionReference } from "convex/server";
 
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Blog Page | YoTech Your Tech Partner",
-  description: "This page dedicated to our blog articles and updates.",
-  // other metadata
-};
-
-const fetchBlogs = async (): Promise<Blog[]> => {
-  // Fetch blogs from Supabase
-  const { data, error } = await supabase
-    .from("blogs")
-    .select("id, title, content, author, image_url, tags, created_at, updated_at")
-    .order("created_at", { ascending: false });
-
-  if (error) {
-    console.error("Error fetching blogs:", error.message);
-    return [];
-  }
-
-  console.log("Fetched blogs from Supabase:", data);
-
-  // Map Supabase data to Blog type
-  return (
-    data?.map((item: any) => ({
-      id: item.id,
-      title: item.title,
-      paragraph: item.content, // Map content to paragraph
-      image: item.image_url || "/images/blog/blog-01.jpg", // fallback image
-      author: {
-        name: item.author || "Unknown",
-        image: "/images/blog/author-02.png", // fallback author image
-        designation: "Author", // fallback designation
-      },
-      tags: item.tags || [],
-      publishDate: item.created_at ? new Date(item.created_at).getFullYear().toString() : "",
-    })) || []
-  );
-};
-
-const Blog = async () => {
-  const blogs = await fetchBlogs();
+const Blog = () => {
+  // const blogs = useQuery(api.blogs.list) || [];
+  const blogs = useQuery(api.blogs.list.default as FunctionReference<"query">) || [];
   return (
     <>
       <Breadcrumb
@@ -59,7 +23,7 @@ const Blog = async () => {
             {blogs.length === 0 ? (
               <p>No blogs found.</p>
             ) : (
-              blogs.map((blog) => (
+              blogs.map((blog: Blog) => (
                 <div
                   key={blog.id}
                   className="w-full px-4 md:w-2/3 lg:w-1/2 xl:w-1/3"
@@ -69,7 +33,6 @@ const Blog = async () => {
               ))
             )}
           </div>
-
         </div>
       </section>
     </>
