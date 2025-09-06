@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^6.31.9",
+    "@splinetool/react-spline": "^4.1.0",
     "@supabase/supabase-js": "^2.57.2",
     "@tailwindcss/postcss": "^4.1.3",
     "convex": "^1.26.2",

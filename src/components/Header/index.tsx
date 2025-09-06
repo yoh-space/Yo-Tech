@@ -51,15 +51,21 @@ const Header = () => {
         <div className="container">
           <div className="relative -mx-4 flex items-center justify-between">
             <div className="w-60 max-w-full px-4 xl:mr-12">
-              <Link
-                href="/"
-                className={`header-logo block w-full ${
-                  sticky ? "py-5 lg:py-2" : "py-8"
-                } `}
-              >
-                <h2 className="text-2xl font-bold text-blue-600">
-                  Yo-Tech
-                </h2>
+              <Link href="/">
+                <Image
+                  src="/images/logo/yo-tech-logo.png"
+                  alt="logo"
+                  width={100}
+                  height={100}
+                  className="dark:hidden"
+                />
+                <Image
+                  src="/images/logo/yo-tech-logo.png"
+                  alt="logo"
+                  width={100}
+                  height={100}
+                  className="hidden dark:block"
+                />
               </Link>
             </div>
             <div className="flex w-full items-center justify-between px-4">
